@@ -15,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent):QFrame(parent)
     initContent();
     /*0xFA0BD8A5 flag*/
     appendToLog("Programm started");
+   // loadUbsLibrary();
 }
 
 void MainWindow::autoStart()
@@ -212,7 +213,7 @@ void MainWindow::initContent(){
     zipCompressionLE->setGeometry(150, 40, MAXW/2+PADDING*2, PADDING);
     zipCompressionLE->setValue(zipCompressionLevel);
     zipCompressionLE->setMinimum(0);
-    zipCompressionLE->setMaximum(7);
+    zipCompressionLE->setMaximum(9);
     zipCompressionLE->setSingleStep(1);
 
     createArchive = new QCheckBox("Create archive file", boxWidget);
@@ -242,7 +243,7 @@ void MainWindow::initContent(){
     rightLay->addWidget(optionsButton, 1);
     */
     /*end of setup Position and geometry*/
-
+    setButtonsText();
     connect(closeButton, SIGNAL(clicked(bool)), this, SLOT(onCloseButtonClicked()));
     connect(openDirButton, SIGNAL(clicked(bool)), openDirDlg, SLOT(open()));
     connect(openFileButton, SIGNAL(clicked(bool)), openFileDlg, SLOT(open()));
@@ -665,7 +666,7 @@ void MainWindow::setAutoMode(bool aMode)
     autoMode = aMode;
 }
 
-bool MainWindow::getMode()
+bool MainWindow::getAutoMode()
 {
     return autoMode;
 }
@@ -695,4 +696,12 @@ void MainWindow::setButtonsText()
 
     openDirButton->setText(buttonText+ "files in directory");
     openFileButton->setText(buttonText + "file");
+}
+
+bool MainWindow::loadUbsLibrary()
+{
+    ubsLib = new QLibrary("win32DLib.dll");
+    ubsLib->load();
+    (ubsLib->isLoaded()) ? appendToLog("Dll loaded") : appendToLog("Error: cant load dll:" + ubsLib->errorString() + ubsLib->fileName());
+
 }

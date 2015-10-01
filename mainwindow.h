@@ -72,6 +72,7 @@ private:
     QString pathToFile;
     QStringList filesToConvert;
     QFile * currentFile;
+    QLibrary *ubsLib;
 
     QPoint mpos;
     bool canMove;
@@ -97,6 +98,7 @@ private:
     void saveLog();
     void listDirRec(QString directory);
     void setButtonsText();
+    bool loadUbsLibrary();
 
 public:
     struct Fat{
@@ -111,10 +113,10 @@ public:
     void appendToLog(const QString &text);
     void initSettings();
     void saveSettings();
-
     void setPathToFolder(const QString &folder);
     void setAutoMode(bool aMode);
-    bool getMode();
+    bool getAutoMode();
+
 
     ~MainWindow();
 private slots:
